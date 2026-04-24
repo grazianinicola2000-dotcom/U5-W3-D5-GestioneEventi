@@ -6,6 +6,7 @@ import nicolagraziani.U5_W3_D5_GestioneEventi.exceptions.ValidationException;
 import nicolagraziani.U5_W3_D5_GestioneEventi.payloads.EventDTO;
 import nicolagraziani.U5_W3_D5_GestioneEventi.payloads.EventUpdateDTO;
 import nicolagraziani.U5_W3_D5_GestioneEventi.services.EventService;
+import nicolagraziani.U5_W3_D5_GestioneEventi.services.ReservationService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,9 +22,11 @@ import java.util.UUID;
 @RequestMapping("/events")
 public class EventController {
     private final EventService eventService;
+    private final ReservationService reservationService;
 
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, ReservationService reservationService) {
         this.eventService = eventService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping
@@ -67,5 +70,9 @@ public class EventController {
         return this.eventService.findEventByIdAndUpdate(eventId, user, body);
     }
 
+    @GetMapping("/myEvents")
+    public List<Event> getMyEvents(@AuthenticationPrincipal User user) {
+        return this.reservationService.findEventListByUserReservation(user);
+    }
 
 }
