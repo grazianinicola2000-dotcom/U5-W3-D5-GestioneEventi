@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 public record EventDTO(
         @NotBlank(message = "Il titolo è un campo obbligatorio e non può essere una Stringa vuota")
@@ -21,8 +20,6 @@ public record EventDTO(
         @NotBlank(message = "La location è un campo obbligatorio e non può essere una Stringa vuota")
         String location,
         @NotNull(message = "Il numero di posti è obbligatorio")
-        int seats,
-        @NotNull(message = "L'Id dell'organizzatore è obbligatorio")
-        UUID creatorId
+        int seats
 ) {
 }

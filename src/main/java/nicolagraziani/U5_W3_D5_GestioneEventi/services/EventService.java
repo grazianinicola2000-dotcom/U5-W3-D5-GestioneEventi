@@ -36,9 +36,8 @@ public class EventService {
         return this.eventRepository.findAll(pageable);
     }
 
-    public Event saveEvent(EventDTO body) {
-        User found = this.userService.findUserById(body.creatorId());
-        Event event = new Event(body.title(), body.description(), body.location(), body.eventDate(), body.seats(), found);
+    public Event saveEvent(EventDTO body, User user) {
+        Event event = new Event(body.title(), body.description(), body.location(), body.eventDate(), body.seats(), user);
         this.eventRepository.save(event);
         log.info("L'evento {} nella data {} è stato salvato correttamente", body.title(), body.eventDate());
         return event;

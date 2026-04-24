@@ -39,12 +39,12 @@ public class EventController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN', 'EVENT_CREATOR')")
-    public Event saveBlogPost(@RequestBody @Validated EventDTO body, BindingResult validation) {
+    public Event saveEvent(@RequestBody @Validated EventDTO body, BindingResult validation, @AuthenticationPrincipal User user) {
         if (validation.hasErrors()) {
             List<String> errors = validation.getFieldErrors().stream().map(error -> error.getDefaultMessage()).toList();
             throw new ValidationException(errors);
         }
-        return this.eventService.saveEvent(body);
+        return this.eventService.saveEvent(body, user);
     }
 
     @GetMapping("/{eventId}")
